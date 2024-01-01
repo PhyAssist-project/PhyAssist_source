@@ -1,25 +1,16 @@
 # PhyAssist source code
 ## Structure
-1. **adapter_mentalLLama_DR**:  
-    Fine-tuning Adapter on the mentalLLama dataset DR
-2. **adapter_mentalLLama_dreaddit**:  
- Fine-tuning Adapter on the mentalLLama dataset dreaddit.
-3. **adapter_mentalLLama_Final**:  
- Adapter for on mentalLLama dataset Irf, MultiWD,
-SAD
-4. **adapter_mentalLLama_nbertagnolli**:  
- Fine-tuning Adapter on the mentalLLama dataset nbertagnolli
-5. **MentalLLaMA_dataset**:  
+1. **MentalLLaMA_dataset**:  
  The testbench for the mentalLLama dataset.
-6. **nbertagnolli_dataset**:  
+2. **nbertagnolli_dataset**:  
  The nbertagnolli dataset for training.
-7. demo.ipynb:   
+3. demo.ipynb:   
 The web demo launching our model.
-8. **gen_csv.py**:  
+4. **gen_csv.py**:  
  clean the training data and make the data matching the format of the base model.
-9. **Mistral_Fine_Tune.ipynb**:  
+5. **Mistral_Fine_Tune.ipynb**:  
  The fine-tuning code for the base model.
-10. **Mistralai_Test.ipynb**:  
+6. **Mistralai_Test.ipynb**:  
  The testing code for the base model.
 
 ## Dataset and Testbench
