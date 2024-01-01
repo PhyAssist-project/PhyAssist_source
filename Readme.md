@@ -21,6 +21,7 @@ git clone https://github.com/SteveKGYang/MentalLLaMA.git
 For the nbertagnolli dataset, you can download it using 
 ```
 from datasets import load_dataset
+data_path = "nbertagnolli/counsel-chat"
 load_dataset(data_path, split="train")
 ```
 When you trying to use the testbenchs in the mentalLLama dataset, you need to follow the Readme.md in MentalLLaMA_dataset to download the classifier model to test the accuracy and download the Bart model to calculate the Bart score.
