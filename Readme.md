@@ -1,6 +1,6 @@
 # PhyAssist source code
 ## Structure
-1. **adapter_mentalLLama_DR**:  
+1. **adapter_mentalLLama_DR**:  ``
     Fine-tuning Adapter on the mentalLLama dataset DR
 2. **adapter_mentalLLama_dreaddit**:  
  Fine-tuning Adapter on the mentalLLama dataset dreaddit.
@@ -201,7 +201,7 @@ https://zhuanlan.zhihu.com/p/666234324
 Qlora原始论文：  
 https://arxiv.org/abs/2305.14314
 
-Transformers库支持了bitsandbytes量化框架，其中封装了加载4-bit量化模型的方法。
+
 
 ```python
 from transformers import BitsAndBytesConfig
@@ -363,7 +363,7 @@ trainer = SFTTrainer(
 2. SFTTrainer
 SFTTrainer是Trainer的子类，增加了处理PeftConfig的逻辑，专门用于实现Lora的微调。具体的使用方法可以参考官方文档：https://huggingface.co/docs/trl/main/en/sft_trainer。  
 我并未对SFTTrainer进行过多的研究，但根据hugging face中的文档中的说明，它相对于普通的trainer函数额外提供了一些数据处理相关的功能，这一点在数据处理部分会详细介绍。  
-在调用trl库时，可能会出现版本错误，需要将 typing_extensions 更改为 4.5.0版本
+在调用trl库时，可能会出现版本错误，需要将 typing_extensions 更改为 4.5.0版本。
 ```shell
 pip install typing_extensions==4.5.0
 ```
@@ -635,7 +635,12 @@ model = AutoModelForCausalLM.from_pretrained("idegroup/PhyAssist")
 
 
 
-
+测试模型性能的benchmark：  
+我们使用了 **IMHI dataset** 作为测试模型性能的测试标准，这个数据集提供了面向心理咨询领域的测试标准，我们在此数据集上对模型进行了测试，你可以通过如下命令下载原数据集：
+```bash
+git clone https://github.com/SteveKGYang/MentalLLaMA.git
+```
+下载数据集后，按照其中Readme提供的指导即可开始测试。
 
 
 

@@ -17,11 +17,19 @@ def gen_csv(content_list, csv_name):
     # Add title
     data_list.append(["text"])
     # Add contents: "<s>[INST]" + query + " [/INST]  " + gpt-3.5-turbo + " </s>"
+    # nbertagnolli_dataset 的格式
     # questionID,questionTitle,questionText,questionLink,topic,therapistInfo,therapistURL,answerText,upvotes,views
     for content in content_list:
-        data_content = "<s>[INST]"+ content[0] + " [/INST]  Anwser:" + content[1] + "</s>"
-        data_list.append([data_content])
-    print(len(data_list))
+
+        if len(content) == 10: # 对于nbertagnolli_dataset，只采用questionText和answerText
+            data_content = "<s>[INST]" + content[2] + " [/INST]  " + content[7] + " </s>" 
+        elif len(content) == 2 : # MentalLLama-instruct 数据集的格式中只有两条
+            data_content = "<s>[INST]" + content[0] + " [/INST]  " + content[1] + " </s>" 
+        else:
+            continue
+        data_list.append(data_content)
+    # 去掉第二行
+    data_list.pop(1)
     with open(csv_name, 'w', newline="", encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerows(data_list)
@@ -29,7 +37,7 @@ def gen_csv(content_list, csv_name):
 def clean_data(content_list):
     new_content_list = []
     for content in content_list:
-        if(len(content) != 1):
+        if(len(content) == 0):
             continue
         dirty_data = content[0]
         # Remove data with URL
