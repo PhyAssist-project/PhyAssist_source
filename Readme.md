@@ -1,181 +1,254 @@
-# PhyAssist source code
-## Structure
-1. **adapter_mentalLLama_DR**:  ``
-    Fine-tuning Adapter on the mentalLLama dataset DR
-2. **adapter_mentalLLama_dreaddit**:  
- Fine-tuning Adapter on the mentalLLama dataset dreaddit.
-3. **adapter_mentalLLama_Final**:  
- Adapter for on mentalLLama dataset Irf, MultiWD,
-SAD
-4. **adapter_mentalLLama_nbertagnolli**:  
- Fine-tuning Adapter on the mentalLLama dataset nbertagnolli
-5. **MentalLLaMA_dataset**:  
- The testbench for the mentalLLama dataset.
-6. **nbertagnolli_dataset**:  
- The nbertagnolli dataset for training.
-7. demo.ipynb:   
-The web demo launching our model.
-8. **gen_csv.py**:  
- clean the training data and make the data matching the format of the base model.
-9. **Mistral_Fine_Tune.ipynb**:  
- The fine-tuning code for the base model.
-10. **Mistralai_Test.ipynb**:  
- The testing code for the base model.
+```markdown
+# PhyAssist Source Code
 
-### 1. Dataset and Testbench
-You may need download the IMHI dataset 
+This repository contains the source code for PhyAssist, a project designed
+to fine-tune adapters on various mental health datasets to improve model performance across different domains.
+
+---
+
+## Getting Started
+
+To set up and start using PhyAssist, follow these steps:
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/YourUsername/PhyAssist.git
+cd PhyAssist
 ```
+
+### 2. Install Dependencies
+
+Make sure you have Python installed, then install the necessary dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Download Datasets
+
+#### IMHI Dataset
+Clone the IMHI dataset by running:
+```bash
 git clone https://github.com/SteveKGYang/MentalLLaMA.git
 ```
-For the nbertagnolli dataset, you can download it using 
-```
+
+#### Nbertagnolli Dataset
+To download the `nbertagnolli` dataset, use the `datasets` library:
+```python
 from datasets import load_dataset
-load_dataset(data_path, split="train")
+load_dataset('dataset_name', split="train")
 ```
-When you trying to use the testbenchs in the mentalLLama dataset, you need to follow the Readme.md in MentalLLaMA_dataset to download the classifier model to test the accuracy and download the Bart model to calculate the Bart score.
 
-### 2. Data Preprocessing
-The data preprocessing is in the gen_csv.py. You can use it to clean the data and make the data matching the format of the base model. The output is a csv file with a column named "text".
+### 4. Data Preprocessing
 
-You can use it by
-```
+Use `gen_csv.py` to clean and format the data, ensuring compatibility with the base model. Run the script as follows:
+```bash
 python gen_csv.py --origin_path <source_data_path> --new_path <output_path>
 ```
-Before using, you need to change some code in the gen_csv.py to adapt to your data format. 
-* The first place(line 22):
-```python
-data_content = "<s>[INST]"+ [The Question Columns] + " [/INST]  Anwser:" + [The Answer Columns] + "</s>"
+
+Modify `gen_csv.py` if needed to adapt it to your data format. Refer to the comments within the script to configure specific columns and format settings.
+
+### 5. Fine-Tune the Model
+
+To fine-tune the model, open and run **Mistral_Fine_Tune.ipynb**. This notebook will guide you through the fine-tuning process and save the adapter checkpoint.
+
+### 6. Test the Model
+
+Use **Mistralai_Test.ipynb** to test the model's accuracy and performance. This notebook includes code for evaluating the model's predictions. Adjust any necessary paths in the code.
+
+### 7. Run the Web Demo
+
+To launch the interactive demo, open **demo.ipynb**. This notebook uses Gradio to provide a web interface where you can test the model in real time.
+
+---
+
+## Repository Structure
+
+1. **adapter_mentalLLama_DR**  
+   Fine-tuning adapter on the `mentalLLama` dataset for the **DR** domain.
+
+2. **adapter_mentalLLama_dreaddit**  
+   Fine-tuning adapter on the `mentalLLama` dataset for the **Dreaddit** domain.
+
+3. **adapter_mentalLLama_Final**  
+   Adapter for fine-tuning on the `mentalLLama` dataset, including **Irf**, **MultiWD**, and **SAD** domains.
+
+4. **adapter_mentalLLama_nbertagnolli**  
+   Fine-tuning adapter on the `mentalLLama` dataset for the **nbertagnolli** subset.
+
+5. **MentalLLaMA_dataset**  
+   Testbench for the `mentalLLama` dataset, including evaluation scripts and benchmarks.
+
+6. **nbertagnolli_dataset**  
+   Dataset specifically for training and evaluation on the `nbertagnolli` domain.
+
+7. **demo.ipynb**  
+   Notebook for launching the **web demo** using Gradio to interact with the model.
+
+8. **gen_csv.py**  
+   Script for cleaning and formatting data to match the base model's requirements.
+
+9. **Mistral_Fine_Tune.ipynb**  
+   Jupyter notebook for fine-tuning the base model.
+
+10. **Mistralai_Test.ipynb**  
+    Notebook for testing the model's accuracy and performance.
+
+---
+
+## Additional Information
+
+### Dataset and Testbench
+
+For details on using the testbench within `MentalLLaMA_dataset`, refer to its `Readme.md`. The testbench includes classifier models for accuracy testing and BART models for BART score calculation.
+
+### Data Structure and Testbench Scripts
+
+The testbench includes several key scripts:
+- **IMHI.py**: Generates model outputs on test data.
+- **label_inference.py**: Computes accuracy by comparing model outputs to ground truth. This script prompts you to download classifier models specific to each dataset.
+- **score.py**: Calculates benchmark scores to evaluate the quality of model predictions.
+
+---
+
+This guide provides an overview of setting up and using PhyAssist. Follow the instructions in each notebook and script to adapt them to your specific data and testing requirements. Enjoy exploring and fine-tuning the model!
 ```
-* The second place(line 32-34):
-```python
-if(len(content) != [Your Data Columns Number]):
-    continue
-dirty_data = Columns[0] + ... + Columns[-1]
-```
+=================================================================================
+```markdown
+# Guide to Fine-Tuning Large Language Models with Transformers
 
-### 3. Data Fine-tuning
-The fine-tuning code is in the **Mistral_Fine_Tune.ipynb**. You can use it to fine-tune the base model. The output is a adapter checkpoint. You can change the output path in the code.
+This document provides a guide to fine-tuning large language models in the PhyAssist project, covering key concepts and processes for reproducibility and future reference.
 
-### 4. Data Testing
-The testing code is in the **mistralai_test.ipynb**. You can use it to test the accuracy of the base model. You can change the output path in the code.
+**Project Repository**: [https://github.com/PhyAssist-project/PhyAssist_source](https://github.com/PhyAssist-project/PhyAssist_source)  
+**Huggingface NLP Intro Course**: This guide is based on Huggingface's documentation. For further reference, visit their [NLP tutorial](https://huggingface.co/learn/nlp-course/chapter3/3?fw=pt).
 
-In the testing code, there is some command to use the testbench in the mentalLLama dataset. 
-If the command is facing some error, you can change the command according to the Readme.md in the **MentalLLaMA_dataset**.
+---
 
-### 5. The structure of the MentalLLaMA_dataset
-1. model_output:
-The output of our fine-tuning model on the test_data.
-2. test_data:
-the test data of the mentalLLama dataset. The model output is generated by our model using the data in **test_complete**.
-3. src: 
-/data/IDE-project/adapter_mentalLLama_FinalThe source code of the testbench.
-* **IMHI.py** using a model provided by the user to generate the output with the test data.
-* **label_inference.py** using the model output to calculate the **accuracy** of model's prediction. When using it, this code will ask you to download the classifier model the mentalLLama group has trained for each dataset they provided. 
-* **socre.py** Calculate score on some benchmarks of the test data, which is used to judge the **quality** of the model prediction. When using it, this code will ask you to download some models of these benchmarks.
+## 1. Model Selection and Download
 
-### 6. demo.ipynb
-The demo.ipynb is the web demo launching our model using gradio. You can use it to test our model. 
-
-# 知识点梳理：如何使用 transformers 库完成大语言模型的微调
-本文档用于记录PhyAssist项目中涉及到的微调以及使用大模型的知识点，以便于后续的复现和参考。  
-项目地址：https://github.com/PhyAssist-project/PhyAssist_source 
-
-本篇文档中的很多内容都基于huggingface的文档，这里记录一下huggingface的NLP入门教程，可以作为参考。  
-入门教程：https://huggingface.co/learn/nlp-course/chapter3/3?fw=pt
-## 1. 模型的选择与下载
-本次试验的资源基本上都来自huggingface，如果无法翻墙，可以使用镜像网站 https://hf-mirror.com
-使用如下命令可以将所有transformers库的下载地址设置为镜像网站。
+For this project, we primarily use Huggingface resources. If access to Huggingface is restricted, you can use a mirror site by setting:
 ```shell
 HF_ENDPOINT=https://hf-mirror.com 
 ```
-模型下载部分的代码
+
+### Model Download Code
 ```python
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+
 base_model = 'mistralai/Mixtral-8x7B-Instruct-v0.1'
 
 bnb_config = BitsAndBytesConfig(
-    load_in_4bit= True,
-    bnb_4bit_quant_type= "nf4",
-    bnb_4bit_compute_dtype= torch.bfloat16,
-    bnb_4bit_use_double_quant= False,
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16,
+    bnb_4bit_use_double_quant=False,
 )
+
 model = AutoModelForCausalLM.from_pretrained(
-        base_model,
-        quantization_config=bnb_config,
-        device_map="auto",
-        trust_remote_code=True,
+    base_model,
+    quantization_config=bnb_config,
+    device_map="auto",
+    trust_remote_code=True,
 )
 ```
-### 1.1 项目基座模型：Mixtra-8x7B-Instruct-v0.1 简要介绍
-Mixtral 8x7B 是 Mistral AI 在2023年12月份新推出的一个大型语言模型，模型的参数量为46.7B，模型结构是**稀疏的专家混合网络**，在控制参数量规模并且提升模型推理速度的同时，性能也在多个测试集上匹配或优于 Llama_270B 以及 GPT3.5。下图取自Mistral AI的论文，展示了Mixtral 8x7B在多个测试集上的表现。
-![](images/img4.png)
 
-鉴于Mixtral 8x7B的优异性能，以及相对于GPT3.5等模型明显更低的在部署、训练、推理方面的空间与时间成本，在综合考虑了硬件资源的限制之后，选择了Mixtral 8x7B作为项目的基座模型。
+---
 
-接下来简要介绍一下Mixtral 8x7B的模型结构特点:
-如下图所示，Mixtral采用被称为**稀疏的专家混合网络**的结构，基于解码器结构，这个结构的特点是将transformers的前递层（FFN）分为若干个专家，每个专家是一个小型的MLP，对于每个输入的token来说，只使用其中的两个专家对token进行计算，然后将计算结果进行加权求和，得到最终的输出。  
-有一个路由层（Gating/Router）负责预测给定token具体由哪两个专家进行计算，它本质上也是一个可供训练的线性层。
-![](images/img5.png)
-打印出来的关键Decoder结构如下图：
-![](images/img8.png)
+### 1.1 Overview of the Base Model: Mixtral-8x7B-Instruct-v0.1
 
-这个结构的好处是在保证模型在前递全连接层的参数量不变（即网络的表达能力不变）的情况下，每次计算只使用其中的一部分参数，从而大大减少了在前递过程中的计算量，提升了模型的推理速度。Mixtra-8x7B的推理速度和成本与 12.9B 的模型大致相同。
+Mixtral 8x7B, released by Mistral AI in December 2023, is a large language model with 46.7 billion parameters structured as a **Sparse Mixture of Experts (MoE)**. This architecture balances parameter efficiency and inference speed, often outperforming larger models like Llama-270B and GPT-3.5 on several benchmarks. 
 
-与 Mixtral 8x7B 一起发布还有 Mixtral 8x7B Instruct，其在Mixtral 8x7B的基础上通过监督微调和直接偏好优化(DPO)进行优化，以让之严格的遵循指令，相对于 Mixtral 8x7B，Mixtral 8x7B Instruct 在多个测试集上的表现有所提升。因此在本次实验中，选择了 Mixtral 8x7B Instruct 作为基座模型。  
-*注：DPO(Direct Preference Optimization)是一种让模型的输出更偏向于人类喜好的微调方法，与RLHF(Reward Learning from Human Feedback)相比，理解难度、实现难度和资源占用都更加友好。*
+Mixtral-8x7B’s structure leverages a sparse MoE, where only two experts are activated per input token. This reduces computational load while maintaining expressive capacity. A gating layer routes tokens to the appropriate experts, optimizing processing. This model achieves similar inference costs to a 12.9B model.
 
-Mixtral 8x7B 论文地址：
-https://arxiv.org/pdf/2401.04088.pdf  
-DPO 项目地址：
-https://github.com/eric-mitchell/direct-preference-optimization
+The model used here, **Mixtral-8x7B Instruct**, includes optimizations for instruction-following tasks through **Direct Preference Optimization (DPO)**. This fine-tuning method improves alignment with human preferences while requiring fewer resources than traditional RLHF (Reinforcement Learning from Human Feedback).
 
+- **Mixtral-8x7B Paper**: [https://arxiv.org/pdf/2401.04088.pdf](https://arxiv.org/pdf/2401.04088.pdf)  
+- **DPO Project**: [https://github.com/eric-mitchell/direct-preference-optimization](https://github.com/eric-mitchell/direct-preference-optimization)
 
+---
 
-### 1.2 AutoModel 自动加载模型
+## 1.2 Loading Models with AutoModel
+
 ```python
 from transformers import AutoModel
 model = AutoModel.from_pretrained(model_name_or_path)
 ```
-AutoModel 是 huggingface 提供的一个类帮助我们快速加载一个预训练模型。提供的方法用于自动完成模型类别推理、模型文件列表映射、模型文件下载及缓存、类对象构建等一系列操作。  
-其中常用的有两个方法：
-* from_config(config): 给定一个配置文件加载模型，这个方法只会加载模型的框架，不会加载模型的权重。config文件可以通过```AutoConfig.from_pretrained(model_name_or_path)```来获取。
-* from_pretrained(model_name_or_path, **kwargs): 从预训练模型的名称或者路径加载模型，这个方法会将预训练模型的权重加载到模型中。如果预训练模型没有下载到本地，那么会自动从 huggingface 的模型仓库中下载。模型的保存地址默认为：*~/.cache/huggingface/transformers*.
 
-**AutoModel 的实现原理简要介绍：**  
-对于多数模型，都有内置的Model类用于模型的加载，比如BertModel、GPT2-Model等，这些常用的模型的加载类都被集成到了transformers库中，但对于那些没有内置类的模型（如ChatGLM）或者新模型，transformers 库又该怎么加载他们？为了解决这个问题，就给出了AutoModel这么一个通用的模型加载方法。  
+`AutoModel` in Huggingface simplifies loading pre-trained models. It infers model type, downloads files, and constructs class objects. Key methods:
+- `from_config(config)`: Loads model structure from a config file without weights.
+- `from_pretrained(model_name_or_path, **kwargs)`: Loads pre-trained weights; downloads from Huggingface if not locally cached.
 
-AutoModel 的大致逻辑如下图：
-![](images/img1.png)
-AutoModel 会根据给定的模型名称或者路径，在huggingface的模型仓库中查找对应的模型配置文件config.json。
-```json
-"auto_map": {
-    "AutoConfig": "configuration_chatglm.ChatGLMConfig",
-    "AutoModel": "modeling_chatglm.ChatGLMForConditionalGeneration",
-    "AutoModelForSeq2SeqLM": "modeling_chatglm.ChatGLMForConditionalGeneration"
-}
-```
-如果config文件中有auto_map字段，那么AutoModel会根据auto_map字段中的映射关系，找到对应的模型类进行模型创建，并将模型参数加载到模型中。  
-如果没有auto_map字段，那么AutoModel会对模型的结构进行推测，如果模型的结构符合transformers库中的内置模型，那么会使用内置模型类进行模型创建，并将模型参数加载到模型中。  
-如果既没auto_map，也不在内置模型中，就会报错。
+### How AutoModel Works
+For models with pre-defined classes (e.g., `BertModel`, `GPT2Model`), `AutoModel` will use the appropriate class. For new models like ChatGLM, `AutoModel` relies on the `auto_map` field in `config.json` to find custom classes for loading.
 
+---
 
-### 1.3 AutoModelForCausalLM
-在本次实验中，我们使用的是AutoModelForCausalLM类进行模型加载。  
+## 1.3 AutoModelForCausalLM
+
+For this project, we use `AutoModelForCausalLM` to load causal language models (e.g., GPT). This class is designed for models with only a decoder, like the Mixtral-8x7B.
+
 ```python
 from transformers import AutoModelForCausalLM
-model = AutoModelForCausalLM.from_pretrained(model_name_or_path,trust_remote_code=True)
+model = AutoModelForCausalLM.from_pretrained(model_name_or_path, trust_remote_code=True)
 ```
-AutoModelFor...是 AutoModel 的子类，用于指定模型的任务类型。例如将BERT用到文本分类任务，可以使用 **AutoModelForSequenceClassification**。这个任务类型必须是模型可以做的，否则会报错，比如不能使用Bert做图片分类任务。  
 
-对于指定的的任务类型，transformers库会对模型进行一些改造，比如在BERT的基础上添加一个分类层。添加上的分类层是随机初始化的，需要我们自己进行训练。
+`AutoModelForCausalLM` is specifically used for causal language models (decoder-only). For Mixtral-8x7B, Huggingface’s implementation, `MistralForCausalLM`, directly loads and configures the model with an added linear layer for token prediction.
 
-**AutoModelForCausalLM**是专门用于加载因果语言模型的类，也就是只有Decoder的Transformer模型，GPT就是这一类，本次实验使用的 **Mixtral-8x7B-Instruct-v0.1** 也是这一类，因此在实验中使用这个方法进行基座模型的加载。
-
-对于本次试验采用的 **Mixtral-8x7B-Instruct-v0.1** 模型，transformer中已经提供了模型的实现方法：**MistralForCausalLM**，因此在加载模型时，AutoModelForCausalLM会直接调用这个方法进行模型的加载。查看源代码得知，此函数在 MistralModel 的基础上添加了一个线性层，用于将模型的输出映射到词表上。
 ```python
 self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
 ```
 
+This setup enables efficient loading and customization for language modeling tasks.
 
+--- 
+
+## Project Components
+
+### 2. Data Preprocessing
+
+The script `gen_csv.py` cleans and formats training data for the base model. It outputs a CSV file with a `text` column.
+
+Usage:
+```bash
+python gen_csv.py --origin_path <source_data_path> --new_path <output_path>
+```
+
+Customize `gen_csv.py` to adapt to your data format:
+- **Line 22**: Define content format for model input.
+  ```python
+  data_content = "<s>[INST]" + [Question Columns] + " [/INST] Answer:" + [Answer Columns] + "</s>"
+  ```
+- **Line 32-34**: Ensure correct column count.
+  ```python
+  if(len(content) != [Column Number]):
+      continue
+  dirty_data = Columns[0] + ... + Columns[-1]
+  ```
+
+### 3. Model Fine-Tuning
+
+Use **Mistral_Fine_Tune.ipynb** for fine-tuning. This notebook outputs an adapter checkpoint. Adjust output paths as necessary.
+
+### 4. Model Testing
+
+**Mistralai_Test.ipynb** provides testing code for model evaluation. Adjust paths and configurations within the notebook for your specific setup.
+
+### 5. Dataset Structure and Testbench in MentalLLaMA
+
+The **MentalLLaMA_dataset** folder includes tools for benchmarking on the mentalLLama dataset:
+- **IMHI.py**: Generates model outputs.
+- **label_inference.py**: Calculates prediction accuracy.
+- **score.py**: Assesses model quality on various benchmarks.
+
+### 6. Web Demo
+
+**demo.ipynb** sets up a Gradio web demo for real-time interaction with the model.
+
+--- 
+
+## Summary
+
+This guide provides an overview of setting up and using PhyAssist, covering model selection, data preparation, fine-tuning, and evaluation. Follow instructions within each section to adapt the scripts to your specific requirements.
+```
 ### 1.4 模型的量化
 在本实验中，由于使用的模型**Mixtral-8x7B-Instruct-v0.1**所占内存过大，需要使用模型量化的方法进行压缩。采用的量化方法被称为Qlora，即4-bit Quantized Model 和 Low-Rank Adapters的结合。
 
