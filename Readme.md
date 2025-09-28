@@ -129,8 +129,8 @@ We evaluate the fine-tuned **PhyAssist** model using two complementary approache
 
 1. **General LLM Capability Evaluation**  
    We compare PhyAssist with other large language models on common benchmarks to assess its overall language modeling capabilities.  
-   ![General Capability Results](images/result1)
+   ![General Capability Results](images/result1.png)
 
 2. **IMHI Test Bench for Emotional Counseling**  
    We further validate PhyAssist on the **IMHI test bench**, which specifically measures performance in emotional counseling scenarios.  
-   ![Emotional Counseling Results](images/result2)
+   ![Emotional Counseling Results](images/result2.png)
