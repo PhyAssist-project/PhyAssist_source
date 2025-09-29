@@ -4,6 +4,9 @@
   <b>PhyAssist: Fine-Tuning Large Language Models into Personalized Psychological Counseling Assistants</b><br>
 </h1> -->
 
+<h1 align="center">
+  <a href="https://github.com/SakanaAI/AI-Scientist/blob/main/docs/logo_2.png">
+</h1> 
 
 
 PhyAssist is a fine-tuned large language model designed to serve as an intelligent assistant for psychotherapists. We use the ``Mixtral-8x7B-Instruct-v0.1`` as our backbone model and fine-tune it on the **IMHI dataset** to adapt it to the psychological counseling domain. It can help mental health professionals handle patient consultations more efficiently through natural conversations, providing comprehensive symptom analysis and professional diagnostic suggestions. The model is trained on psychological counseling datasets to adapt large language models for specialized clinical support.
