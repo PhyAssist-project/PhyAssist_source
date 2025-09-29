@@ -134,3 +134,6 @@ We evaluate the fine-tuned **PhyAssist** model using two complementary approache
 2. **IMHI Test Bench for Emotional Counseling**  
    We further validate PhyAssist on the **IMHI test bench**, which specifically measures performance in emotional counseling scenarios.  
    ![Emotional Counseling Results](images/result2.png)
+## Comments
+  PhyAssist only the preliminary prototype for using LLMs to implente a specific app for help 
+This 
