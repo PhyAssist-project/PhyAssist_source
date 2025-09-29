@@ -1,8 +1,8 @@
-<h1 align="center">
+<!-- <h1 align="center">
   <a href="https://github.com/SakanaAI/AI-Scientist/blob/main/docs/logo_2.png">
     <img src="images/pipeline.png" width="600" /></a><br>
   <b>PhyAssist: Fine-Tuning Large Language Models into Personalized Psychological Counseling Assistants</b><br>
-</h1>
+</h1> -->
 <h1 align="center">
   <a href="https://github.com/SakanaAI/AI-Scientist/blob/main/docs/logo_2.png">
     <img src="images/AI-APC-Workflow.png" width="600" /></a><br>
